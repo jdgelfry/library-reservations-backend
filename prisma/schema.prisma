@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ReservationStatus {
+  ACTIVE
+  RETURNED
+}
+
+model User {
+  id           String        @id @default(uuid())
+  name         String
+  email        String        @unique
+  reservations Reservation[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Book {
+  id           String        @id @default(uuid())
+  title        String
+  author       String
+  isbn         String        @unique
+  publishedYear Int?
+  isDeleted    Boolean       @default(false)
+  reservations Reservation[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Reservation {
+  id              String            @id @default(uuid())
+  userId          String
+  bookId          String
+  reservationDate DateTime
+  returnDate      DateTime
+  returnedAt      DateTime?
+  status          ReservationStatus @default(ACTIVE)
+  user            User              @relation(fields: [userId], references: [id])
+  book            Book              @relation(fields: [bookId], references: [id])
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([userId, status])
+  @@index([bookId, status])
+  @@index([reservationDate])
+  @@index([returnDate])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  entity    String
+  entityId  String
+  action    String
+  payload   Json
+  createdAt DateTime @default(now())
+
+  @@index([entity, entityId])
+  @@index([action])
+}

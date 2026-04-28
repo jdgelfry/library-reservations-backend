@@ -6,9 +6,9 @@ export class CreateUserInput {
   @Field()
   @IsString()
   @Length(2, 80)
-  name: string;
+  name!: string;
 
   @Field()
   @IsEmail()
-  email: string;
+  email!: string;
 }

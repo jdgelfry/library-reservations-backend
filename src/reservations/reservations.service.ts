@@ -71,7 +71,7 @@ export class ReservationsService {
         { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
       );
     } catch (error) {
-      // The partial unique index also protects us if two users reserve the same book at the same time.
+      // Manejo específico para error de clave única (reserva activa existente)
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
         throw businessError('El libro ya tiene una reserva activa.');
       }

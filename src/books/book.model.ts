@@ -3,26 +3,30 @@ import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 @ObjectType()
 export class Book {
   @Field(() => ID)
-  id: string;
+  id!: string;
 
   @Field()
-  title: string;
+  title!: string;
 
   @Field()
-  author: string;
+  author!: string;
 
   @Field()
-  isbn: string;
+  isbn!: string;
 
   @Field(() => Int, { nullable: true })
   publishedYear?: number | null;
 
   @Field()
-  isDeleted: boolean;
+  isDeleted!: boolean;
 
   @Field()
-  createdAt: Date;
+  createdAt!: Date;
 
   @Field()
-  updatedAt: Date;
+  updatedAt!: Date;
+
+  constructor(data?: Partial<Book>) {
+    if (data) Object.assign(this, data);
+  }
 }

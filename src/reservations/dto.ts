@@ -6,21 +6,21 @@ import { Type } from 'class-transformer';
 export class CreateReservationInput {
   @Field(() => ID)
   @IsUUID()
-  userId: string;
+  userId!: string;
 
   @Field(() => ID)
   @IsUUID()
-  bookId: string;
+  bookId!: string;
 
   @Field(() => GraphQLISODateTime)
   @Type(() => Date)
   @IsDate()
-  reservationDate: Date;
+  reservationDate!: Date;
 
   @Field(() => GraphQLISODateTime)
   @Type(() => Date)
   @IsDate()
-  returnDate: Date;
+  returnDate!: Date;
 }
 
 @InputType()

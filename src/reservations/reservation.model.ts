@@ -6,25 +6,25 @@ import { ReservationStatusEnum } from './reservation-status.enum';
 @ObjectType()
 export class Reservation {
   @Field(() => ID)
-  id: string;
+  id!: string;
 
   @Field(() => ID)
-  userId: string;
+  userId!: string;
 
   @Field(() => ID)
-  bookId: string;
+  bookId!: string;
 
   @Field(() => GraphQLISODateTime)
-  reservationDate: Date;
+  reservationDate!: Date;
 
   @Field(() => GraphQLISODateTime)
-  returnDate: Date;
+  returnDate!: Date;
 
   @Field(() => GraphQLISODateTime, { nullable: true })
   returnedAt?: Date | null;
 
   @Field(() => ReservationStatusEnum)
-  status: ReservationStatusEnum;
+  status!: ReservationStatusEnum;
 
   @Field(() => User, { nullable: true })
   user?: User;
@@ -33,8 +33,12 @@ export class Reservation {
   book?: Book;
 
   @Field(() => GraphQLISODateTime)
-  createdAt: Date;
+  createdAt!: Date;
 
   @Field(() => GraphQLISODateTime)
-  updatedAt: Date;
+  updatedAt!: Date;
+
+  constructor(data?: Partial<Reservation>) {
+    if (data) Object.assign(this, data);
+  }
 }

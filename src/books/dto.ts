@@ -6,16 +6,16 @@ export class CreateBookInput {
   @Field()
   @IsString()
   @Length(1, 160)
-  title: string;
+  title!: string;
 
   @Field()
   @IsString()
   @Length(1, 120)
-  author: string;
+  author!: string;
 
   @Field()
   @IsISBN()
-  isbn: string;
+  isbn!: string;
 
   @Field(() => Int, { nullable: true })
   @IsOptional()
@@ -28,5 +28,5 @@ export class CreateBookInput {
 @InputType()
 export class UpdateBookInput extends PartialType(CreateBookInput) {
   @Field(() => ID)
-  id: string;
+  id!: string;
 }

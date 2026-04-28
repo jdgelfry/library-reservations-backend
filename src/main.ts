@@ -7,11 +7,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
 
+   // Limita el acceso desde navegador al origen configurado del frontend.
   app.enableCors({
     origin: config.get<string>('FRONTEND_URL') ?? 'http://localhost:3000',
     credentials: true,
   });
 
+  // Valida que los datos de entrada cumplan con los DTOs antes de llegar a los resolvers.
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

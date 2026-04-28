@@ -79,7 +79,7 @@ export class BooksService {
       throw error;
     }
   }
-
+ //no se elimina físicamente el libro, solo se marca como eliminado para mantener la integridad de las reservas históricas.
   async remove(id: string) {
     return this.prisma.$transaction(async (tx) => {
       const current = await this.booksRepository.findById(id, tx);

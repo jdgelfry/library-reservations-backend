@@ -7,9 +7,28 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
 
-   // Limita el acceso desde navegador al origen configurado del frontend.
+  const allowedOrigins = (
+    config.get<string>('FRONTEND_URLS') ?? config.get<string>('FRONTEND_URL') ?? 'http://localhost:3000'
+  )
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+    // Limita el acceso desde navegador a una lista de orígenes permitidos.
   app.enableCors({
-    origin: config.get<string>('FRONTEND_URL') ?? 'http://localhost:3000',
+    origin: (origin, callback) => {
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error(`Origin ${origin} not allowed by CORS`));
+    },
     credentials: true,
   });
 

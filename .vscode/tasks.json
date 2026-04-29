@@ -1,20 +1,33 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"label": "yarn: build",
-			"type": "shell",
-			"command": "yarn build",
-			"group": "build",
-			"problemMatcher": []
-		},
-		{
-			"label": "yarn: start:debug",
-			"type": "shell",
-			"command": "yarn start:debug",
-			"isBackground": true,
-			"problemMatcher": ["$tsc-watch"],
-			"detail": "nest start --debug --watch"
-		}
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "yarn: build",
+      "type": "shell",
+      "command": "yarn.cmd",
+      "args": ["build"],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "yarn: start:debug",
+      "type": "shell",
+      "command": "yarn.cmd",
+      "args": ["start:debug"],
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": {
+          "regexp": "^(.*)$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Starting compilation in watch mode",
+          "endsPattern": "Debugger listening on|Nest application successfully started"
+        }
+      },
+      "detail": "nest start --debug --watch"
+    }
+  ]
 }

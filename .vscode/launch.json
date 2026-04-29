@@ -1,35 +1,55 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "pwa-node",
-            "request": "launch",
-            "name": "Launch Built Program",
-            "runtimeExecutable": "node",
-            "runtimeArgs": ["--inspect=9229"],
-            "program": "${workspaceFolder}/dist/main.js",
-            "preLaunchTask": "yarn: build",
-            "outFiles": ["${workspaceFolder}/dist/**/*.js"],
-            "trace": true,
-            "sourceMapPathOverrides": {
-                "../../src/*": "${workspaceFolder}/src/*",
-                "*": "${workspaceFolder}/*"
-            }
-        },
-        {
-            "type": "node",
-            "request": "attach",
-            "name": "Attach NestJS Debugger",
-            "port": 9229,
-            "restart": true,
-            "preLaunchTask": "yarn: start:debug",
-            "outFiles": [
-                "${workspaceFolder}/dist/**/*.js"
-            ],
-            "sourceMapPathOverrides": {
-                "../../src/*": "${workspaceFolder}/src/*",
-                "*": "${workspaceFolder}/*"
-            }
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Debug NestJS (TypeScript)",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--nolazy",
+        "-r",
+        "ts-node/register",
+        "-r",
+        "tsconfig-paths/register"
+      ],
+      "args": ["${workspaceFolder}/src/main.ts"],
+      "envFile": "${workspaceFolder}/.env",
+      "sourceMaps": true,
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"],
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Debug Built Program",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--nolazy"],
+      "program": "${workspaceFolder}/dist/main.js",
+      "preLaunchTask": "yarn: build",
+      "envFile": "${workspaceFolder}/.env",
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "sourceMaps": true,
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
+    },
+    {
+      "type": "pwa-node",
+      "request": "attach",
+      "name": "Attach NestJS Watch",
+      "cwd": "${workspaceFolder}",
+      "port": 9229,
+      "restart": true,
+      "preLaunchTask": "yarn: start:debug",
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "sourceMaps": true,
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"],
+      "sourceMapPathOverrides": {
+        "../src/*": "${workspaceFolder}/src/*",
+        "../../src/*": "${workspaceFolder}/src/*",
+        "webpack:///./src/*": "${workspaceFolder}/src/*"
+      }
+    }
+  ]
 }

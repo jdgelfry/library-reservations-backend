@@ -47,10 +47,10 @@ El contenedor ejecuta automáticamente:
 ```bash
 npx prisma migrate deploy
 npm run prisma:seed
-node dist/main
+node dist/main.js
 ```
 
-## Ejecutar en local sin Docker
+## Ejecutar backend en local con PostgreSQL en Docker
 
 Primero levanta PostgreSQL:
 
@@ -142,6 +142,40 @@ query {
     title
     author
     isbn
+  }
+}
+```
+
+### Actualizar libro
+
+```graphql
+mutation {
+  updateBook(
+    input: {
+      id: "UUID_DEL_LIBRO"
+      title: "Domain-Driven Design"
+      author: "Eric Evans"
+      isbn: "9780321125217"
+      publishedYear: 2003
+    }
+  ) {
+    id
+    title
+    author
+    isbn
+    publishedYear
+  }
+}
+```
+
+### Eliminar libro
+
+```graphql
+mutation {
+  deleteBook(id: "UUID_DEL_LIBRO") {
+    id
+    title
+    isDeleted
   }
 }
 ```

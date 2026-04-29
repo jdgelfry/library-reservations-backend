@@ -21,7 +21,7 @@ export class Reservation {
   returnDate!: Date;
 
   @Field(() => GraphQLISODateTime, { nullable: true })
-  returnedAt?: Date | null;
+  returnedAt!: Date | null;
 
   @Field(() => ReservationStatusEnum)
   status!: ReservationStatusEnum;
